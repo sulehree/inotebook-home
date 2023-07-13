@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoURI = "mongodb://localhost:27017/inotebdook";
+mongoURI = "mongodb://localhost:27017/inotebook";
 
 newconnectToDB = async () => { // made by me by using promise
 
