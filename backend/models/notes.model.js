@@ -2,26 +2,28 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const notesSchema = new Schema({
-
-    title: {
+  user: {
+    type: mongoose.Schema.Types.ObjectId, // here i am refrencing another document field here
+    ref: "UserSchema" 
+  },
+  title: {
     type: String,
   },
 
-    description: {
+  description: {
     type: String,
-    default:"Here is some Description"
+    default: "Here is some Description",
   },
 
-    tag: {
+  tag: {
     type: String,
-    default:"Genral"
+    default: "Genral",
   },
 
-    date: {
+  date: {
     type: String,
     default: Date.now,
-    }
-    
+  },
 });
 
 module.exports = mongoose.model("NotesSchema", notesSchema);
