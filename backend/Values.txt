@@ -1,0 +1,11 @@
+{
+  "name":"Abbas",
+  "email":"abbas@gmail.com",
+  "password":"abbas"
+  }
+
+{
+  "Auth_Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRiNGY4ZjI5Njk3MDcxNDE4NTc0NjBmIn0sImlhdCI6MTY4OTU4Mzc5M30.dWdpWvd7ZwsqCz3UI2271J6GJk0RglzZeEqOzkvtjjc"
+}
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRiNTAyMGE4MmY4ODI3ZjExNjI2MTRmIn0sImlhdCI6MTY4OTU4NDEzOH0.DXRKMWVjWNqlmKpfSnBaIyTI20gbNaD3-hEBwWNWHAc

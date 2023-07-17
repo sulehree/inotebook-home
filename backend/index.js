@@ -4,7 +4,7 @@ const express = require("express");
 newconnectToDB(); // here we connected DataBase
 
 const app = express();
-const port = 3030;
+const port = 8080;
 
 app.use(express.json());// as we are passing some values in body in shape of json, we have  to use
 // we are making routes

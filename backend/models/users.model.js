@@ -21,6 +21,6 @@ const userSchema = new Schema({
   },
 });
 
-const User = mongoose.model("UserSchema", userSchema);
-User.createIndexes();// this will create index of  the fields that are required.. as above schema.. the email
+const User = mongoose.model("User", userSchema);
+// User.createIndexes();// this will create index of  the fields that are required.. as above schema.. the email
 module.exports = User
