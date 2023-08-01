@@ -1,21 +1,22 @@
-import noteContext from "./NoteContext";
+import NoteContext from "./NoteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-  const firstState = {
+  const MyData = {
     name: "Abbas",
-    class: "16",
+    class: "Phd Scholar",
   };
-  const [first, setfirst] = useState(firstState);
-  const update = (Name) => {
+  // Here we are using useState for updating the first value
+  const [biodata, setBioData] = useState(MyData);
+  const updateBio = (Name,studyClass) => {
     setTimeout(() => {
-      setfirst({ name: Name, class: "MSCS" });
-    }, 2000);
+      setBioData({ name: Name, class: studyClass});
+    }, 1000);
   };
   return (
-    <noteContext.Provider value={{ first, update }}>
+    <NoteContext.Provider value={{ biodata, updateBio }}>
       {props.children};
-    </noteContext.Provider>
+    </NoteContext.Provider>
   );
 };
 
