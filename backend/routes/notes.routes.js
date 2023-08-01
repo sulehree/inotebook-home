@@ -17,7 +17,6 @@ router.get("/allnotes", fetchAuthentincUser, async (req, res) => {
   } catch (error) {
     res.json(Error.message);
     console.error(error.message);
-    res.json(Error.message);
   }
 });
 
@@ -66,43 +65,65 @@ router.get(
     } catch (error) {
       res.json(Error.message);
       console.error(error.message);
-      res.json(Error.message);
     }
   }
 );
 
-//Router :3 // here we will update the note in the mongodb at the endpoint /updatenote
+//Router :3 // Here we will update the note in the mongodb at the endpoint /updatenote
 router.put("/updatenote/:id", fetchAuthentincUser, async (req, res) => {
-  const { title, description, tag } = req.body;
-  console.log(title, description, tag);
+  try {
+    const { title, description, tag } = req.body;
+    console.log(title, description, tag);
+    const newNote = {};
+    if (title) {
+      newNote.title = title;
+    } // here we are checking if title value for updating is given then only update it, otherwise left this field
+    if (description) {
+      newNote.description = description;
+    } // same check whether value is there or not
+    if (tag) {
+      newNote.tag = tag;
+    } // same check whether value is there or not
+    // res.json(newNote);
 
-  const newNote = {};
-  if (title) {
-    newNote.title = title;
-  } // here we are checking if title value for updating is given then only update it, otherwise left this field
-  if (description) {
-    newNote.description = description;
-  } // same check whether value is there or not
-  if (tag) {
-    newNote.tag = tag;
-  } // same check whether value is there or not
-  // res.json(newNote);
+    let note = await Note.findById(req.params.id); // here we will find th specifiic note.. by the id in the url
+    if (!note) {
+      return res.status(401).send("Note Not found");
+    }
+    // req.user.id  // we have got by fethauthentic user
+    if (note.user.toString() !== req.user.id) {
+      return req.status(401).send("Cheating:You are not a Valid User");
+    }
 
-  let note = await Note.findById(req.params.id); // here we will find th specifiic note.. by the id in the url
-  if (!note) {
-    return res.status(401).send("Note Not found");
+    note = await Note.findByIdAndUpdate(
+      req.params.id,
+      { $set: newNote },
+      { new: true } // by This option tells Mongoose to return the modified document after the update is applied. By default, Mongoose returns the original document before the update
+    );
+    res.json({ note });
+  } catch (error) {
+    res.json(Error.message);
+    console.error(error.message);
   }
-  // req.user.id  // we have got by fethauthentic user
-  if (note.user.toString() !== req.user.id) {
-    return req.status(401).send("Cheating:You are not a Valid User");
-  }
+});
 
-  note = await Note.findByIdAndUpdate(
-    req.params.id,
-    { $set: newNote },
-    { new: true } // by This option tells Mongoose to return the modified document after the update is applied. By default, Mongoose returns the original document before the update
-  );
-  res.json({ note });
+//Router :3 // Here we will update the note in the mongodb at the endpoint /updatenote
+router.delete("/deletenote/:id", fetchAuthentincUser, async (req, res) => {
+  try {
+    let note = await Note.findById(req.params.id); // here we will find th specifiic note.. by the id in the url
+    if (!note) {
+      return res.status(401).send("Note/Todo Not found");
+    }
+    // req.user.id  // we have got by fethauthentic user
+    if (note.user.toString() !== req.user.id) {
+      return req.status(401).send("Cheating:You are not a Valid User");
+    }
+    note = await Note.findByIdAndDelete(req.params.id);
+    res.json({ note });
+  } catch (error) {
+    res.json(Error.message);
+    console.error(error.message);
+  }
 });
 
 module.exports = router;

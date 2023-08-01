@@ -116,7 +116,6 @@ router.post(
     } catch (error) {
       res.json(Error.message);
       console.error(error.message);
-      res.json(Error.message);
     }
   }
 );
@@ -133,7 +132,6 @@ router.post("/getalluser", fetchUser, async (req, res) => {
   } catch (error) {
     res.json(Error.message);
     console.error(error.message);
-    res.json(Error.message);
   }
 });
 
