@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import {
   // BrowserRouter,
@@ -9,9 +9,6 @@ import {
 } from "react-router-dom";
 const Navbar = () => {
   let location = useLocation();
-  // React.useEffect(() => {
-  //   console.log(location.pathname);
-  // }, [location]);
 
   return (
     <>
