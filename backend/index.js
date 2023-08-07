@@ -4,7 +4,7 @@ const express = require("express");
 newconnectToDB(); // here we connected DataBase
 
 const app = express();
-const port = 8080;
+const port = 5000;
 
 app.use(express.json());// as we are passing some values in body in shape of json, we have  to use
 // we are making routes
@@ -18,8 +18,8 @@ app.get("/", (req, res) => {
   res.send("Hello Abbas!");
 });
 
-app.get("/nighat", (req, res) => {
-  res.send("Hello Nighat!");
+app.get("/bilal", (req, res) => {
+  res.send("Hello Muhammad Bilal Abbas!");
 });
 
 app.listen(port, () => {
