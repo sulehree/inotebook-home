@@ -3,9 +3,11 @@ const { oldconnectToDB, newconnectToDB } = require("./db");
 const express = require("express");
 newconnectToDB(); // here we connected DataBase
 
+var cors = require("cors");
+
 const app = express();
 const port = 5000;
-
+app.use(cors());
 app.use(express.json());// as we are passing some values in body in shape of json, we have  to use
 // we are making routes
 
