@@ -21,11 +21,11 @@ router.get("/allnotes", fetchAuthentincUser, async (req, res) => {
 });
 
 //Router :2 // here we will save the note in the mongodb at the endpoint /addnote
-router.get(
+router.post(
   "/addnote",
   fetchAuthentincUser,
   // email must be an email
-  check("title", "Title minimum length is 5").isLength({ min: 5 }),
+  check("title", "Title minimum length is eeedd5").isLength({ min: 5 }),
   // email must be an email
   check("description", "Description minimum length is 10").isLength({
     min: 10,

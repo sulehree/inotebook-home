@@ -15,6 +15,7 @@ const TodoItem = (props) => {
             className="bi bi-trash"
             onClick={() => {
               deleteTodo(_id);
+              // props.refetch();
             }}
           ></i>
           {/* Edit Button */}

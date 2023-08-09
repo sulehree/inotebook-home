@@ -12,41 +12,18 @@ const NoteState = (props) => {
       date: "1689662714116",
       __v: 0,
     },
-    {
-      _id: "64b634fa4d2f22993d5b5b89",
-      user: "64b4f8f2969707141857460f",
-      title: "Heroshema Developers",
-      description: "I am working in HeroSheema ltd..",
-      tag: "Office",
-      date: "1689662714289",
-      __v: 0,
-    },
-    {
-      _id: "64b634fa4d2f22993d5b5b8b",
-      user: "64b4f8f2969707141857460f",
-      title: "NagaSakiDevelopers",
-      description: "I am working in NagaSaki ltd..",
-      tag: "Office",
-      date: "1689662714842",
-      __v: 0,
-    },
-    {
-      _id: "64b634fb4d2f22993d5b5b8d",
-      user: "64b4f8f2969707141857460f",
-      title: "SheefooDevelopers",
-      description: "I am working in Sheefoo ltd..",
-      tag: "Office",
-      date: "1689662715042",
-      __v: 0,
-    },
   ];
   const hostServer = "http://localhost:5000/";
+  const authTokenLaptop =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMWZlNzI5ZWI2MWQ2NzcxMzIyMDZlIn0sImlhdCI6MTY5MTQ4Mzc2Mn0.Aq8AEhQ-6Q8pgVQugAs19SJYrkUZDd5x_qVOpXuH-ns";
+  // const authTokenPC =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMDhjZjNhMDA5YzRiMzg5OTdlOWNkIn0sImlhdCI6MTY5MTM4OTE3MX0.AidoKTVvJNKs6JdaABlNILKLK2AaRIQA5bdmyxmMnqs";
+  const AuthToken = authTokenLaptop;
   const [todos, settodo] = useState(todosArray);
 
   // to load todos from database
   const loadTodos = async () => {
     console.log("in the loadtodos");
-
     try {
       const apiEndpoint = "notes/allnotes";
       const url = `${hostServer}${apiEndpoint}`;
@@ -55,8 +32,7 @@ const NoteState = (props) => {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMDhjZjNhMDA5YzRiMzg5OTdlOWNkIn0sImlhdCI6MTY5MTM4OTE3MX0.AidoKTVvJNKs6JdaABlNILKLK2AaRIQA5bdmyxmMnqs",
+          "auth-token": AuthToken,
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         // body: JSON.stringify(), // body data type must match "Content-Type" header
@@ -73,28 +49,16 @@ const NoteState = (props) => {
   // Functions to Manipulate with the notes
   //Adding a todo
   const addTodo = async (title, description, tag) => {
-    //TODO Api Call
-    // const todo = {
-    //   _id: "64b634fb4d2f22993d566666",
-    //   user: "64b4f8f2969707141857460f",
-    //   title: title,
-    //   description: description,
-    //   tag: tag,
-    //   date: "1689662715042",
-    // };
-    // settodo(todos.concat(todo)); // here push function return the array size after pushing the value and todos is a array, we need array.. not its siize... and concat function return a new array after concating the new value at the end.. this was the reason when we were pusing the value.. and when map function was trying to read it.. it was not an array it bcomes an integer and thats why it was showing error.
-    // console.log(title, description, tag);
     console.log("Friends we are adding todo");
     try {
       const apiEndpoint = `notes/addnote`;
       const url = `${hostServer}${apiEndpoint}`;
       console.log(url);
       const response = await fetch(url, {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMDhjZjNhMDA5YzRiMzg5OTdlOWNkIn0sImlhdCI6MTY5MTM4OTE3MX0.AidoKTVvJNKs6JdaABlNILKLK2AaRIQA5bdmyxmMnqs",
+          "auth-token": AuthToken,
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({
@@ -106,7 +70,8 @@ const NoteState = (props) => {
 
       const json = await response.json();
       console.log(json);
-      settodo(json);
+      // settodo(json);
+      loadTodos();
     } catch (error) {
       console.error(`Adding TODO error: ${error.message}`);
     }
@@ -130,8 +95,8 @@ const NoteState = (props) => {
         method: "PUT", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMDhjZjNhMDA5YzRiMzg5OTdlOWNkIn0sImlhdCI6MTY5MTM4OTE3MX0.AidoKTVvJNKs6JdaABlNILKLK2AaRIQA5bdmyxmMnqs",
+          "auth-token": AuthToken,
+
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({
@@ -143,7 +108,8 @@ const NoteState = (props) => {
 
       const json = await response.json();
       console.log(json);
-      settodo(json);
+      // settodo(json);
+      loadTodos();
     } catch (error) {
       console.error(`Download error: ${error.message}`);
     }
@@ -167,8 +133,8 @@ const NoteState = (props) => {
         method: "DELETE", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMDhjZjNhMDA5YzRiMzg5OTdlOWNkIn0sImlhdCI6MTY5MTM4OTE3MX0.AidoKTVvJNKs6JdaABlNILKLK2AaRIQA5bdmyxmMnqs",
+          "auth-token": AuthToken,
+
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         // body: JSON.stringify(), // body data type must match "Content-Type" header
@@ -176,7 +142,8 @@ const NoteState = (props) => {
 
       const json = await response.json();
       console.log(json);
-      settodo(json);
+      // settodo(json);
+      loadTodos();
     } catch (error) {
       console.error(`Download error: ${error.message}`);
     }
