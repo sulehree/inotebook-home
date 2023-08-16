@@ -12,10 +12,6 @@ export const TodoNote = () => {
 
   console.log(todos);
 
-  // const refetch = () => {
-  //   loadTodos();
-  // };
-
   return (
     <>
       <AddTodoNote />
@@ -23,14 +19,9 @@ export const TodoNote = () => {
         <h2>Your Todos</h2>
         {/* here we will load todo from database */}
         {/* {loadTodos()} */}
+        {todos.length === 0 && ` Nothing to Show of Todos`}
         {todos?.map((todo) => {
-          return (
-            <TodoItem
-              key={todo._id}
-              todoItem={todo}
-              // refetch={refetch}
-            />
-          );
+          return <TodoItem key={todo._id} todoItem={todo} />;
         })}
       </div>
     </>

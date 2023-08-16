@@ -39,7 +39,7 @@ const NoteState = (props) => {
       });
 
       const json = await response.json();
-      console.log(json);
+
       settodo(json);
     } catch (error) {
       console.error(`Download error: ${error.message}`);
@@ -78,15 +78,7 @@ const NoteState = (props) => {
   };
 
   //Function Editing a todo
-  const editTodo = async (id) => {
-    // console.log(id, "is getting deleted");
-    // const newTodos = todos.filter((todo) => {
-    //   return todo._id !== id;
-    // });
-    // settodo(newTodos);
-
-    console.log("in the EditTodo", id);
-
+  const editTodo = async (id, title, description, tag) => {
     try {
       const apiEndpoint = `notes/updatenote/${id}`;
       const url = `${hostServer}${apiEndpoint}`;
@@ -96,19 +88,17 @@ const NoteState = (props) => {
         headers: {
           "Content-Type": "application/json",
           "auth-token": AuthToken,
-
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({
-          title: "Tinkoo  Warrior",
-          description: "Tinkoo War warrior is just a fantasy",
-          tag: "minko",
+          title: title,
+          description: description,
+          tag: tag,
         }), // body data type must match "Content-Type" header
       });
 
       const json = await response.json();
-      console.log(json);
-      // settodo(json);
+
       loadTodos();
     } catch (error) {
       console.error(`Download error: ${error.message}`);
@@ -124,7 +114,6 @@ const NoteState = (props) => {
     // settodo(newTodos);
 
     console.log("in the Deletetodo");
-
     try {
       const apiEndpoint = `notes/deletenote/${id}`;
       const url = `${hostServer}${apiEndpoint}`;
@@ -142,7 +131,6 @@ const NoteState = (props) => {
 
       const json = await response.json();
       console.log(json);
-      // settodo(json);
       loadTodos();
     } catch (error) {
       console.error(`Download error: ${error.message}`);
