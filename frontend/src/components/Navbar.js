@@ -42,6 +42,26 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
+            <form className="d-flex">
+              <Link
+                className={`btn btn-primary mx-2 ${
+                  location.pathname === "/login" ? "active" : ""
+                } `}
+                to="/login"
+                role="button"
+              >
+                Login
+              </Link>
+              <Link
+                className={`btn btn-primary mx-2 ${
+                  location.pathname === "/signup" ? "active" : ""
+                } `}
+                to="/signup"
+                role="button"
+              >
+                Sign Up
+              </Link>
+            </form>
           </div>
         </div>
       </nav>

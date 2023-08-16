@@ -7,6 +7,7 @@ var jwt = require("jsonwebtoken"); // want to create JWT Token
 const fetchUser = require("../middleware/fetchuser.middleware");
 
 const JWT_SECRET_TOKEN = "AbbasismyN@meandiliveinL@hore";
+let success = false;
 
 //Route:1=> Endpoint /auth/create : here we will entertain the request of Creating User, no login required
 router.post(
@@ -14,21 +15,22 @@ router.post(
   // email must be an email
   check("name", "minimum lengith is 3").notEmpty().isLength({ min: 3 }),
   // email must be an email
-  check("email", "Email Should be in proper format").isEmail(),
+  check("email", "Email Should be in Proper format").isEmail(),
   // password must be at least 5 chars long
-  check("password").isLength({ min: 5 }),
+  check("password", "Password cant be empty").isLength({ min: 5 }),
 
   async (req, res) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
 
     try {
       let user = await User.findOne({ email: req.body.email }); // Here i am checking wether this email already exist or not
       if (user) {
         return res.status(400).json({
+          success: false,
           error:
             req.body.email + " Email is Already Existisng , choose some other",
         }); //if exist .. email id will be shown
@@ -42,7 +44,8 @@ router.post(
         email: req.body.email,
         password: hashPassword,
       });
-
+  //cont tokenExpir=30min
+  process.env.tokenExpir
       let data = {
         user: {
           id: user.id,
@@ -51,10 +54,10 @@ router.post(
 
       const Auth_Token = jwt.sign(data, JWT_SECRET_TOKEN);
       console.log(Auth_Token);
-      res.json({ Auth_Token });
+      res.json({ success: true, Auth_Token });
     } catch (error) {
       console.error(error.message);
-      res.json(Error.message);
+      res.json({ success: false, error: Error.message });
     }
 
     // User Created by using promise
@@ -76,28 +79,30 @@ router.post(
 router.post(
   "/login",
   // email must be an email
-  check("email", "Email Should be in proper format").isEmail(),
+  check("email", "Email Should be in Proper format").isEmail(),
   // password must be at least 5 chars long
-  check("password").isLength({ min: 5 }),
+  check("password", "Wrong Password ").isLength({ min: 5 }),
 
   async (req, res) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
     const { email, password } = req.body; // defactarizatin of variable into two variables.
+
     try {
       const user = await User.findOne({ email: email }); // Here i am checking wether this email already exist or not
       if (!user) {
         return res.status(400).json({
+          success: false,
           error:
-            email +
-            " Credentials are not Correct, Check Email and Password are correct",
+            email + " Email Dont Exist, Check Email and Password are correct",
         });
       } else {
         if (!bcrypt.compareSync(password, user.password)) {
           return res.status(400).json({
+            success: false,
             error:
               " Credentials are not Correct, Check Email and Password are correct",
           });
@@ -112,9 +117,9 @@ router.post(
 
       const Auth_Token = jwt.sign(data, JWT_SECRET_TOKEN);
       console.log(Auth_Token);
-      res.json({ Auth_Token });
+      res.json({ success: true, Auth_Token });
     } catch (error) {
-      res.json(Error.message);
+      res.json({ success: false, error: Error.message });
       console.error(error.message);
     }
   }
