@@ -23,6 +23,7 @@ const Navbar = () => {
           </Link>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            {/* Here we are checking the auth-token is available or not */}
             {localStorage.getItem("Auth_Token") && (
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
