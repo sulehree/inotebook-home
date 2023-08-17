@@ -12,7 +12,7 @@ const Navbar = () => {
   let Navigate = useNavigate();
   const handleLogOut = () => {
     localStorage.removeItem("Auth_Token");
-    Navigate("/about");
+    Navigate("/login");
   };
   return (
     <>
