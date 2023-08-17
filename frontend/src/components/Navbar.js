@@ -23,51 +23,44 @@ const Navbar = () => {
           </Link>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${
-                    location.pathname === "/" ? "active" : ""
-                  } `}
-                  aria-current="page"
-                  to="/"
-                >
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${
-                    location.pathname === "/About" ? "active" : ""
-                  } `}
-                  to="/About"
-                >
-                  About
-                </Link>
-              </li>
-            </ul>
-
+            {localStorage.getItem("Auth_Token") && (
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link ${
+                      location.pathname === "/" ? "active" : ""
+                    } `}
+                    aria-current="page"
+                    to="/"
+                  >
+                    Home
+                  </Link>
+                </li>
+              </ul>
+            )}
             {!localStorage.getItem("Auth_Token") ? (
-              <form className="d-flex">
-                <Link
-                  className={`btn btn-primary mx-2 ${
-                    location.pathname === "/login" ? "active" : ""
-                  } `}
-                  to="/login"
-                  role="button"
-                >
-                  Login
-                </Link>
-                <Link
-                  className={`btn btn-primary mx-2 ${
-                    location.pathname === "/signup" ? "active" : ""
-                  } `}
-                  to="/signup"
-                  role="button"
-                >
-                  Sign Up
-                </Link>
-              </form>
+              <>
+                <form className="d-flex">
+                  <Link
+                    className={`btn btn-primary mx-2 ${
+                      location.pathname === "/login" ? "active" : ""
+                    } `}
+                    to="/login"
+                    role="button"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    className={`btn btn-primary mx-2 ${
+                      location.pathname === "/signup" ? "active" : ""
+                    } `}
+                    to="/signup"
+                    role="button"
+                  >
+                    Sign Up
+                  </Link>
+                </form>
+              </>
             ) : (
               <button
                 className={`btn btn-primary mx-2 `}
