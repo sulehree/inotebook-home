@@ -13,20 +13,41 @@ import NoteState from "./context/notes/Notestate";
 import Alert from "./components/Alert";
 import LoginTodo from "./components/LoginTodo";
 import SingUpTodo from "./components/SingUpTodo";
+import { useState } from "react";
 
 function App() {
+  const [alert, setAlert] = useState(null);
+
+  const ShowAlert = (message, type) => {
+    
+    setAlert({
+      alertText: message,
+      alertType: type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 2500);
+  };
   return (
     <div>
       <NoteState>
         <BrowserRouter>
           <Navbar />
-          <Alert message={"Welcome to Todo"} />
+          <Alert alert={alert} />
           <div className="container">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home showalert={ShowAlert} />} />
               <Route exact path="/About" element={<About />} />
-              <Route exact path="/login" element={<LoginTodo />} />
-              <Route exact path="/signup" element={<SingUpTodo />} />
+              <Route
+                exact
+                path="/login"
+                element={<LoginTodo showalert={ShowAlert} />}
+              />
+              <Route
+                exact
+                path="/signup"
+                element={<SingUpTodo showalert={ShowAlert} />}
+              />
             </Routes>
           </div>
         </BrowserRouter>

@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 
-const SingUpTodo = () => {
+const SingUpTodo = (props) => {
   const Navigation = useNavigate();
   const hostServer = "http://localhost:5000/";
   const [credentials, setcredentials] = useState({
@@ -35,10 +35,17 @@ const SingUpTodo = () => {
       console.log(json);
       console.log(json.success);
       if (json.success) {
-        Navigation("/about");
+        props.showalert(
+          `A User with email ${credentials.email} has successfully created`,
+          "success"
+        );
+        Navigation("/");
+      } else {
+        props.showalert(`Signup Error: ${json.error}`, "danger");
       }
     } catch (error) {
-      console.error(` Signup Error: ${error.message}`);
+      console.log();
+      props.showalert(`Signup Error: ${error.message}`, "danger");
     }
   };
   return (

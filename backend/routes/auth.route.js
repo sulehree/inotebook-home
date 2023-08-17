@@ -32,7 +32,7 @@ router.post(
         return res.status(400).json({
           success: false,
           error:
-            req.body.email + " Email is Already Existisng , choose some other",
+            req.body.email + " Email is Already Existisng , Choose some other email address",
         }); //if exist .. email id will be shown
       }
       // here i will apply hash on the password

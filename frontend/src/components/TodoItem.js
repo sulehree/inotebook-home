@@ -7,6 +7,7 @@ import NoteContext from "../context/notes/NoteContext";
 const TodoItem = (props) => {
   const { deleteTodo, editTodo } = useContext(NoteContext);
   const { title, description, _id, tag } = props.todoItem;
+  const { showalert } = props;
 
   const [show, setShow] = useState(false);
 
@@ -21,12 +22,26 @@ const TodoItem = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const DeleteTodo = (id) => {
+    const success = deleteTodo(id);
+    if (success) {
+      showalert("You have successfully Deleted Todo:", "success");
+    } else {
+      showalert("Todo did not get Deleted:", "danger");
+    }
+  };
+
   const editandSave = () => {
     if (
       (modalTitle.length >= 5 && modalDesc.length >= 10, modalTag.length >= 3)
     ) {
       handleClose();
-      editTodo(_id, modalTitle, modalDesc, modalTag);
+      const success = editTodo(_id, modalTitle, modalDesc, modalTag);
+      if (success) {
+        showalert("You have successfully Edited Todo:", "success");
+      } else {
+        showalert("Some error occured while editing the todo:", "danger");
+      }
     } else {
       setmodaltitlelable(
         modalTitle.length < 5 ? "Title Value is less than 5" : "Todo Title"
@@ -109,7 +124,7 @@ const TodoItem = (props) => {
           <i
             className="bi bi-trash"
             onClick={() => {
-              deleteTodo(_id);
+              DeleteTodo(_id);
               // props.refetch();
             }}
           ></i>

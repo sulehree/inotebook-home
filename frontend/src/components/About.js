@@ -9,6 +9,8 @@ const About = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  console.log("first");
   return (
     <div>
       <h1>About</h1>

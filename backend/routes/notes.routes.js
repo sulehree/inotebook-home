@@ -4,6 +4,7 @@ const fetchAuthentincUser = require("../middleware/fetchuser.middleware");
 const express = require("express");
 const { check, validationResult } = require("express-validator");
 const router = express.Router();
+let success = false;
 
 //Router:1// here we get all the notes of the authentic User at the end point /allnotes
 router.get("/allnotes", fetchAuthentincUser, async (req, res) => {
@@ -36,7 +37,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
     try {
       console.log(req.user.id);
@@ -51,7 +52,7 @@ router.post(
         tag,
       });
       const savenote = await note.save();
-      res.json(savenote);
+      res.json({ success: true, savenote });
 
       // Another Way to add Note
       // const note = await Note.create({
@@ -63,7 +64,7 @@ router.post(
 
       // res.json(note);
     } catch (error) {
-      res.json(Error.message);
+      res.json({ success: true, error: Error.message });
       console.error(error.message);
     }
   }
@@ -88,11 +89,13 @@ router.put("/updatenote/:id", fetchAuthentincUser, async (req, res) => {
 
     let note = await Note.findById(req.params.id); // here we will find th specifiic note.. by the id in the url
     if (!note) {
-      return res.status(401).send("Note Not found");
+      return res.status(401).json({ success: false, errors: "Note Not found" });
     }
     // req.user.id  // we have got by fethauthentic user
     if (note.user.toString() !== req.user.id) {
-      return req.status(401).send("Cheating:You are not a Valid User");
+      return res
+        .status(401)
+        .json({ success: false, errors: "Cheating:You are not a Valid User" });
     }
 
     note = await Note.findByIdAndUpdate(
@@ -100,9 +103,9 @@ router.put("/updatenote/:id", fetchAuthentincUser, async (req, res) => {
       { $set: newNote },
       { new: true } // by This option tells Mongoose to return the modified document after the update is applied. By default, Mongoose returns the original document before the update
     );
-    res.json({ note });
+    res.json({ success: true, note });
   } catch (error) {
-    res.json(Error.message);
+    res.json({ success: false, errors: Error.message });
     console.error(error.message);
   }
 });
@@ -116,12 +119,15 @@ router.delete("/deletenote/:id", fetchAuthentincUser, async (req, res) => {
     }
     // req.user.id  // we have got by fethauthentic user
     if (note.user.toString() !== req.user.id) {
-      return req.status(401).send("Cheating:You are not a Valid User");
+      return req
+        .status(401)
+        .json({ success: false, errors: "Cheating:You are not a Valid User" });
+      // return req.status(401).send("Cheating:You are not a Valid User");
     }
     note = await Note.findByIdAndDelete(req.params.id);
-    res.json({ note });
+    res.json({ success: true, note });
   } catch (error) {
-    res.json(Error.message);
+    res.json({ success: false, errors: Error.message });
     console.error(error.message);
   }
 });

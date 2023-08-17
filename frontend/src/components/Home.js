@@ -1,11 +1,12 @@
 // import AddTodoNote from "./AddTodoNote";
 import { TodoNote } from "./TodoNote";
 
-export const Home = () => {
+export const Home = (props) => {
+  const { showalert } = props;
   return (
     <div>
       {/* <AddTodoNote/> */}
-      <TodoNote />
+      <TodoNote showalert={showalert} />
     </div>
   );
 };

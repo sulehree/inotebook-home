@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-const LoginTodo = () => {
+const LoginTodo = (props) => {
+  const { showalert } = props;
   const Navigate = useNavigate();
   const hostServer = "http://localhost:5000/";
   const [credentials, setcredentials] = useState({ email: "", password: "" });
@@ -32,16 +33,23 @@ const LoginTodo = () => {
       console.log(json);
 
       if (json.success) {
-        // here i will redirect to todopage
-        console.log("Hurrah");
+        // here i will redirect to todopageplease
+        showalert("You have successfully logged In:", "success");
         localStorage.setItem("Auth_Token", json.Auth_Token); // here i am storing the authtoken in local storage
         Navigate("/"); /// we will use this for navigation
       } else {
         console.log("Try Again");
-        alert("Try Again Dear");
+        showalert(
+          "Wrong Credentails,Please Try with Correct Credentials ",
+          "danger"
+        );
       }
     } catch (error) {
       console.error(`Sign In Error: ${error.message}`);
+      showalert(
+        "Some internal error has occur, Do try after some time ",
+        "danger"
+      );
     }
   };
   return (

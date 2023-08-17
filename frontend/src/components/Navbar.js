@@ -1,15 +1,19 @@
 import React from "react";
-
 import {
   // BrowserRouter,
   // Routes,
   // Route,
+  useNavigate,
   Link,
   useLocation,
 } from "react-router-dom";
 const Navbar = () => {
   let location = useLocation();
-
+  let Navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem("Auth_Token");
+    Navigate("/about");
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -42,26 +46,38 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-            <form className="d-flex">
-              <Link
-                className={`btn btn-primary mx-2 ${
-                  location.pathname === "/login" ? "active" : ""
-                } `}
-                to="/login"
+
+            {!localStorage.getItem("Auth_Token") ? (
+              <form className="d-flex">
+                <Link
+                  className={`btn btn-primary mx-2 ${
+                    location.pathname === "/login" ? "active" : ""
+                  } `}
+                  to="/login"
+                  role="button"
+                >
+                  Login
+                </Link>
+                <Link
+                  className={`btn btn-primary mx-2 ${
+                    location.pathname === "/signup" ? "active" : ""
+                  } `}
+                  to="/signup"
+                  role="button"
+                >
+                  Sign Up
+                </Link>
+              </form>
+            ) : (
+              <button
+                className={`btn btn-primary mx-2 `}
+                onClick={handleLogOut}
                 role="button"
+                // to={"/login"}
               >
-                Login
-              </Link>
-              <Link
-                className={`btn btn-primary mx-2 ${
-                  location.pathname === "/signup" ? "active" : ""
-                } `}
-                to="/signup"
-                role="button"
-              >
-                Sign Up
-              </Link>
-            </form>
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </nav>

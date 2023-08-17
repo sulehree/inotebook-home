@@ -2,23 +2,11 @@ import NoteContext from "./NoteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-  const todosArray = [
-    {
-      _id: "64b634fa4d2f22993d5b5b87",
-      user: "64b4f8f2969707141857460f",
-      title: "Tracons Devleopers",
-      description: "I am working in Tracon ltd..",
-      tag: "Office",
-      date: "1689662714116",
-      __v: 0,
-    },
-  ];
+  const todosArray = [];
+
   const hostServer = "http://localhost:5000/";
-  const authTokenLaptop =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMWZlNzI5ZWI2MWQ2NzcxMzIyMDZlIn0sImlhdCI6MTY5MTQ4Mzc2Mn0.Aq8AEhQ-6Q8pgVQugAs19SJYrkUZDd5x_qVOpXuH-ns";
-  // const authTokenPC =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMDhjZjNhMDA5YzRiMzg5OTdlOWNkIn0sImlhdCI6MTY5MTM4OTE3MX0.AidoKTVvJNKs6JdaABlNILKLK2AaRIQA5bdmyxmMnqs";
-  const AuthToken = authTokenLaptop;
+
+  const AuthToken = localStorage.getItem("Auth_Token");
   const [todos, settodo] = useState(todosArray);
 
   // to load todos from database
@@ -69,11 +57,12 @@ const NoteState = (props) => {
       });
 
       const json = await response.json();
-      console.log(json);
-      // settodo(json);
+      // console.log(json);
       loadTodos();
+      return json.success;
     } catch (error) {
       console.error(`Adding TODO error: ${error.message}`);
+      return false;
     }
   };
 
@@ -100,6 +89,7 @@ const NoteState = (props) => {
       const json = await response.json();
 
       loadTodos();
+      return json.success;
     } catch (error) {
       console.error(`Download error: ${error.message}`);
     }
@@ -112,8 +102,6 @@ const NoteState = (props) => {
     //   return todo._id !== id;
     // });
     // settodo(newTodos);
-
-    console.log("in the Deletetodo");
     try {
       const apiEndpoint = `notes/deletenote/${id}`;
       const url = `${hostServer}${apiEndpoint}`;
@@ -132,8 +120,10 @@ const NoteState = (props) => {
       const json = await response.json();
       console.log(json);
       loadTodos();
+      return json.success;
     } catch (error) {
       console.error(`Download error: ${error.message}`);
+      return false;
     }
   };
 

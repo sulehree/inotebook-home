@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import NoteContext from "../context/notes/NoteContext";
 
-const AddTodoNote = () => {
+const AddTodoNote = (props) => {
   const { addTodo } = useContext(NoteContext);
+  const { showalert } = props;
   // usestae is being used to store the value of todonote.. and function to change its value
   const [todonote, settodonote] = useState({
     title: "Default Todo",
@@ -23,7 +24,13 @@ const AddTodoNote = () => {
       inputDesc.length >= 10 &&
       inputTag.length >= 3
     ) {
-      addTodo(todonote.title, todonote.description, todonote.tag);
+      let success = addTodo(todonote.title, todonote.description, todonote.tag);
+      if (success) {
+        showalert("You have successfully added Todo:", "success");
+      } else {
+        showalert("You have successfully added Todo:", "danger");
+      }
+
       console.log("button clicked");
       setinputTitle("");
       setinputDesc("");
