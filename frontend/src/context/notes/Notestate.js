@@ -4,7 +4,7 @@ import { useState } from "react";
 const NoteState = (props) => {
   const todosArray = [];
 
-  const hostServer = "http://localhost:5000/";
+  const hostServer = process.env.REACT_APP_HOST_URL;
 
   const AuthToken = localStorage.getItem("Auth_Token");
   const [todos, settodo] = useState(todosArray);
@@ -19,7 +19,7 @@ const NoteState = (props) => {
       const response = await fetch(url, {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": process.env.REACT_APP_CTJSON,
           "auth-token": AuthToken,
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -37,7 +37,6 @@ const NoteState = (props) => {
   // Functions to Manipulate with the notes
   //Adding a todo
   const addTodo = async (title, description, tag) => {
-    console.log("Friends we are adding todo");
     try {
       const apiEndpoint = `notes/addnote`;
       const url = `${hostServer}${apiEndpoint}`;
@@ -45,7 +44,7 @@ const NoteState = (props) => {
       const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": process.env.REACT_APP_CTJSON,
           "auth-token": AuthToken,
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -75,7 +74,7 @@ const NoteState = (props) => {
       const response = await fetch(url, {
         method: "PUT", // *GET, POST, PUT, DELETE, etc.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": process.env.REACT_APP_CTJSON,
           "auth-token": AuthToken,
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -97,11 +96,6 @@ const NoteState = (props) => {
 
   //Function Deleting a todo
   const deleteTodo = async (id) => {
-    // console.log(id, "is getting deleted");
-    // const newTodos = todos.filter((todo) => {
-    //   return todo._id !== id;
-    // });
-    // settodo(newTodos);
     try {
       const apiEndpoint = `notes/deletenote/${id}`;
       const url = `${hostServer}${apiEndpoint}`;
@@ -109,7 +103,7 @@ const NoteState = (props) => {
       const response = await fetch(url, {
         method: "DELETE", // *GET, POST, PUT, DELETE, etc.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": process.env.REACT_APP_CTJSON,
           "auth-token": AuthToken,
 
           // 'Content-Type': 'application/x-www-form-urlencoded',

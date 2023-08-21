@@ -6,9 +6,9 @@ const AddTodoNote = (props) => {
   const { showalert } = props;
   // usestae is being used to store the value of todonote.. and function to change its value
   const [todonote, settodonote] = useState({
-    title: "Default Todo",
-    description: "Default Description",
-    tag: "Default",
+    title: "Default Todo:Title",
+    description: "Default Todo:Description",
+    tag: "Default:Tag",
   });
   const [inputTitle, setinputTitle] = useState("");
   const [inputDesc, setinputDesc] = useState("");

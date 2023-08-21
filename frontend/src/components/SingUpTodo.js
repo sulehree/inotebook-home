@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const SingUpTodo = (props) => {
   const Navigation = useNavigate();
-  const hostServer = "http://localhost:5000/";
+  const hostServer = process.env.REACT_APP_HOST_URL;
   const [credentials, setcredentials] = useState({
     name: "",
     email: "",
@@ -20,13 +20,13 @@ const SingUpTodo = (props) => {
     e.preventDefault();
 
     try {
-      const apiEndpoint = "auth/create";
+      const apiEndpoint = "auth/signup";
       const url = `${hostServer}${apiEndpoint}`;
       console.log("credentials are", credentials);
       const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": process.env.REACT_APP_CTJSON,
         },
 
         body: JSON.stringify(credentials),

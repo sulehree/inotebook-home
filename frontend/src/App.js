@@ -19,7 +19,6 @@ function App() {
   const [alert, setAlert] = useState(null);
 
   const ShowAlert = (message, type) => {
-    
     setAlert({
       alertText: message,
       alertType: type,
@@ -36,6 +35,11 @@ function App() {
           <Alert alert={alert} />
           <div className="container">
             <Routes>
+              <Route
+                exact
+                path="/login"
+                element={<LoginTodo showalert={ShowAlert} />}
+              />
               <Route path="/" element={<Home showalert={ShowAlert} />} />
               <Route exact path="/About" element={<About />} />
               <Route

@@ -1,6 +1,5 @@
-const User = require("../models/users.model");
 const Note = require("../models/notes.model");
-const fetchAuthentincUser = require("../middleware/fetchuser.middleware");
+const fetchAuthentincUser = require("../middlewares/fetchuser.middleware");
 const express = require("express");
 const { check, validationResult } = require("express-validator");
 const router = express.Router();
@@ -10,7 +9,6 @@ let success = false;
 router.get("/allnotes", fetchAuthentincUser, async (req, res) => {
   try {
     let userId = req.user.id;
-    console.log(userId);
     let notes = await Note.find({ user: userId });
 
     // this Select will select all other value other then password
@@ -20,13 +18,12 @@ router.get("/allnotes", fetchAuthentincUser, async (req, res) => {
     console.error(error.message);
   }
 });
-
 //Router :2 // here we will save the note in the mongodb at the endpoint /addnote
 router.post(
   "/addnote",
   fetchAuthentincUser,
   // email must be an email
-  check("title", "Title minimum length is eeedd5").isLength({ min: 5 }),
+  check("title", "Title minimum length is 5").isLength({ min: 5 }),
   // email must be an email
   check("description", "Description minimum length is 10").isLength({
     min: 10,
@@ -69,7 +66,6 @@ router.post(
     }
   }
 );
-
 //Router :3 // Here we will update the note in the mongodb at the endpoint /updatenote
 router.put("/updatenote/:id", fetchAuthentincUser, async (req, res) => {
   try {
@@ -109,7 +105,6 @@ router.put("/updatenote/:id", fetchAuthentincUser, async (req, res) => {
     console.error(error.message);
   }
 });
-
 //Router :3 // Here we will update the note in the mongodb at the endpoint /updatenote
 router.delete("/deletenote/:id", fetchAuthentincUser, async (req, res) => {
   try {

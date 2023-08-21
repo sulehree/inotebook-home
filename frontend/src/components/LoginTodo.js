@@ -6,7 +6,9 @@ import Form from "react-bootstrap/Form";
 const LoginTodo = (props) => {
   const { showalert } = props;
   const Navigate = useNavigate();
-  const hostServer = "http://localhost:5000/";
+  // const hostServer = "http://localhost:5000/"; // we will use env variable for hostserver
+  const hostServer = process.env.REACT_APP_HOST_URL;
+
   const [credentials, setcredentials] = useState({ email: "", password: "" });
   const onValueChange = (e) => {
     setcredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -24,7 +26,7 @@ const LoginTodo = (props) => {
       const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": process.env.REACT_APP_CTJSON,
         },
         body: JSON.stringify(credentials),
       });
